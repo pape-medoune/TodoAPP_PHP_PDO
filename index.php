@@ -4,24 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    clifford: '#da373d',
-                }
-            }
-        }
-    }
+    
     </script>
 </head>
 
 <body class="md:mt-20 mt-0 flex justify-start md:justify-center">
     <!-- Affichage de notre table -->
 
-    <div class="max-w-screen-xl mx-auto px-4 md:px-8 shadow-xl p-5 rounded(x">
+    <div class="max-w-screen-xl mx-auto px-4 md:px-8 shadow-xl p-5 rounded-xl">
         <div class="items-start justify-between md:flex">
             <div class="max-w-lg">
                 <h3 class="text-gray-800 text-xl font-bold sm:text-2xl">
@@ -32,9 +22,9 @@
                 </p>
             </div>
             <div class="mt-3 md:mt-0">
-                <a href="./ajouter.php" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+                <a href=""
                     class="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-                    type="button" id="ProductButton">
+                    id="ProductButton">
                     Ajouter une tâche
                 </a>
 
@@ -56,33 +46,60 @@
 
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 divide-y">
 
-                    <tr key={idx}>
-                        <td class="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{item.email}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{item.position}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{item.salary}</td>
+                <tbody class="text-gray-600 divide-y">
+                    <?php
+                    require_once './connection.php';
+                    
+                    $query = $con->prepare("SELECT * from taches");
+                    $query->execute();
+                    $results = $query->fetchAll(PDO::FETCH_OBJ);
+                    if($query->rowCount()>0)
+                    {
+                        foreach($results as $result)
+                        {
+                ?>
+
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->id)?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->nomtache)?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->description)?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->statut)?></td>
                         <td class="text-right px-6 whitespace-nowrap">
-                            <a href="javascript:void()"
+                            <a href="modifier.php?id=<?php echo htmlentities($result->id)?>"
                                 class="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
                                 Edit
                             </a>
-                            <button href="javascript:void()"
+                            <a href="supprimer.php?id=<?php echo htmlentities($result->id)?>"
                                 class="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
                                 Delete
-                            </button>
+                            </a>
                         </td>
                     </tr>
+                    <?php                
+                        }
+                    }
+                ?>
                 </tbody>
+
             </table>
         </div>
     </div>
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            document.getElementById('ProductButton').click();
-        });
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    clifford: '#da373d',
+                }
+            }
+        }
+    }
+    <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.getElementById('ProductButton').click();
+    });
     </script>
 </body>
 

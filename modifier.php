@@ -36,6 +36,7 @@
         $query->bindValue(':statut', $statut);
 
         $query->execute();
+        header("Location: index.php");
     }
 ?>
 
@@ -70,9 +71,9 @@
                     <select name="statut" id="category" value="<?php echo htmlentities($row->statut)?>"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option selected=""></option>
-                        <option value="Valider"><i class="fa-solid fa-check"></i></option>
-                        <option value="En attente"><i class="fa-solid fa-loader"></i></option>
-                        <option value="Pas encore entamer"><i class="fa-solid fa-xmark"></i></option>
+                        <option name="statutderiv" value="Valider">Valider</option>
+                        <option name="statutderiv" value="En attente">En attente</option>
+                        <option name="statutderiv" value="Pas encore entamer">Pas encore entamer</option>
                     </select>
                 </div>
                 <div class="sm:col-span-2">

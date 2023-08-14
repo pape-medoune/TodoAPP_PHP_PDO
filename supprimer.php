@@ -11,6 +11,7 @@
                     alert('suppression fait avec succés');
                 </script>
             ";
+            header("Location: index.php");
         } catch (Exception $e) {
             echo $e;
         }
